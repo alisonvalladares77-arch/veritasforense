@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veritas Forense | Investigación Criminal - Guatemala</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            900: '#070D14',
+                            800: '#0D1B2A',
+                            700: '#1B263B',
+                            600: '#273852',
+                        },
+                        gold: {
+                            100: '#FFF8E7',
+                            300: '#E5C158',
+                            500: '#D4AF37',
+                            600: '#B89320',
+                            700: '#8C6C11',
+                        },
+                        emerald: {
+                            400: '#34D399',
+                            500: '#2A9D8F',
+                            600: '#10B981',
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Cinzel', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #F8FAFC;
+            color: #1E293B;
+        }
+        .font-cinzel {
+            font-family: 'Cinzel', serif;
+        }
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #FFE89C 0%, #D4AF37 50%, #9A7718 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .gold-border {
+            border-color: #D4AF37;
+        }
+        .gold-bg-gradient {
+            background: linear-gradient(135deg, #D4AF37 0%, #B89320 100%);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #0D1B2A;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #D4AF37;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between overflow-x-hidden selection:bg-gold-500 selection:text-navy-900">
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="sticky top-0 z-40 bg-navy-800/95 backdrop-blur-md border-b border-gold-500/30 text-white shadow-xl transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Logo & Brand Name -->
+                <a href="#inicio" class="flex items-center gap-3 group">
+                    <div class="w-12 h-12 rounded-full border-2 border-gold-500 flex items-center justify-center bg-navy-900 text-gold-500 shadow-lg group-hover:scale-105 transition-transform duration-300">
+                        <i class="fa-solid fa-scale-balanced text-xl"></i>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="font-cinzel font-bold text-lg sm:text-xl tracking-wider text-white group-hover:text-gold-300 transition-colors">VERITAS FORENSE</span>
+                        <span class="text-[10px] sm:text-xs text-gold-500 tracking-widest font-semibold uppercase">Investigación Criminal • GT</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Navigation Menu -->
+                <nav class="hidden md:flex items-center space-x-6 text-sm font-medium">
+                    <a href="#inicio" class="text-gray-300 hover:text-gold-300 transition-colors py-2">Inicio</a>
+                    <a href="#catalogo" class="text-gray-300 hover:text-gold-300 transition-colors py-2">Catálogo</a>
+                    <a href="#entrenamientos" class="text-gray-300 hover:text-gold-300 transition-colors py-2">Cursos</a>
+                    <a href="#nosotros" class="text-gray-300 hover:text-gold-300 transition-colors py-2">Nosotros</a>
+                    <a href="#contacto" class="text-gray-300 hover:text-gold-300 transition-colors py-2">Contacto</a>
+                </nav>
+
+                <!-- Cart Button & Mobile Menu Toggle -->
+                <div class="flex items-center gap-4">
+                    <button id="cartBtn" class="relative bg-navy-700 hover:bg-navy-600 border border-gold-500/40 text-gold-300 px-4 py-2.5 rounded-full flex items-center gap-2 transition-all duration-300 hover:shadow-[0_0_15px_rgba(212,175,55,0.3)]">
+                        <i class="fa-solid fa-cart-shopping text-lg"></i>
+                        <span class="hidden sm:inline text-xs font-bold uppercase tracking-wider">Carrito</span>
+                        <span id="cartBadge" class="bg-gold-500 text-navy-900 text-xs font-extrabold rounded-full w-5 h-5 flex items-center justify-center ml-1">0</span>
+                    </button>
+
+                    <button id="mobileMenuBtn" class="md:hidden text-gray-300 hover:text-gold-500 focus:outline-none p-2">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-navy-900 border-b border-gold-500/30 px-4 pt-2 pb-6 space-y-3">
+            <a href="#inicio" class="block text-gray-200 hover:text-gold-300 py-2 border-b border-navy-700">Inicio</a>
+            <a href="#catalogo" class="block text-gray-200 hover:text-gold-300 py-2 border-b border-navy-700">Catálogo General</a>
+            <a href="#entrenamientos" class="block text-gray-200 hover:text-gold-300 py-2 border-b border-navy-700">Cursos de Entrenamiento</a>
+            <a href="#nosotros" class="block text-gray-200 hover:text-gold-300 py-2 border-b border-navy-700">Sobre Nosotros</a>
+            <a href="#contacto" class="block text-gray-200 hover:text-gold-300 py-2">Contacto</a>
+        </div>
+    </header>
+
+    <!-- HERO / BANNER SECTION -->
+    <section id="inicio" class="relative bg-navy-900 text-white overflow-hidden py-16 sm:py-24 border-b-4 border-gold-500">
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#D4AF37_1px,transparent_1px)] [background-size:16px_16px]"></div>
+        <div class="absolute -top-24 -right-24 w-96 h-96 bg-gold-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-navy-800 border border-gold-500/40 text-gold-300 text-xs sm:text-sm font-medium uppercase tracking-widest shadow-inner">
+                        <i class="fa-solid fa-fingerprint text-gold-500"></i>
+                        <span>Equipamiento y Capacitación Especializada</span>
+                    </div>
+
+                    <h1 class="text-3xl sm:text-5xl lg:text-6xl font-cinzel font-black tracking-tight leading-tight">
+                        VERITAS FORENSE <br/>
+                        <span class="gold-gradient-text">INVESTIGACIÓN CRIMINAL</span>
+                    </h1>
+
+                    <p class="text-gray-300 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 font-light leading-relaxed">
+                        Proporcionamos insumos forenses de alta calidad, bibliografía jurídica especializada y formación académica de nivel profesional para agencias de seguridad y peritos criminalistas en Guatemala.
+                    </p>
+
+                    <div class="pt-2 flex flex-wrap gap-4 justify-center lg:justify-start text-xs sm:text-sm text-gray-300">
+                        <span class="flex items-center gap-2 bg-navy-800/80 px-3 py-1.5 rounded-lg border border-navy-600">
+                            <i class="fa-solid fa-location-dot text-gold-500"></i> Zona 10, Ciudad de Guatemala
+                        </span>
+                        <span class="flex items-center gap-2 bg-navy-800/80 px-3 py-1.5 rounded-lg border border-navy-600">
+                            <i class="fa-solid fa-phone text-emerald-400"></i> (+502) 1234-5678
+                        </span>
+                    </div>
+
+                    <div class="pt-4 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                        <a href="#catalogo" class="gold-bg-gradient hover:opacity-90 text-navy-900 font-bold px-8 py-3.5 rounded-xl shadow-lg shadow-gold-500/20 text-center transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-store"></i> Explora el Catálogo
+                        </a>
+                        <a href="#entrenamientos" class="bg-navy-800 hover:bg-navy-700 text-gold-300 border border-gold-500/50 font-semibold px-8 py-3.5 rounded-xl text-center transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-graduation-cap"></i> Cursos de Entrenamiento
+                        </a>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-5 flex justify-center">
+                    <div class="relative w-full max-w-md bg-gradient-to-b from-navy-800 to-navy-900 border-2 border-gold-500/50 rounded-3xl p-6 sm:p-8 shadow-2xl text-center backdrop-blur-sm group hover:border-gold-500 transition-all duration-500">
+                        <div class="w-32 h-32 mx-auto mb-6 rounded-full bg-navy-900 border-4 border-gold-500 flex items-center justify-center shadow-2xl shadow-gold-500/20 relative">
+                            <i class="fa-solid fa-magnifying-glass-chart text-5xl text-gold-500 group-hover:scale-110 transition-transform"></i>
+                        </div>
+                        <h3 class="font-cinzel text-xl sm:text-2xl font-bold text-white mb-2">Garantía de Calidad Forense</h3>
+                        <p class="text-xs sm:text-sm text-gray-400 mb-6">Insumos normados para preservación de cadena de custodia y cadena de evidencia en la escena del crimen.</p>
+                        
+                        <div class="grid grid-cols-3 gap-2 border-t border-navy-700 pt-4 text-center">
+                            <div>
+                                <div class="text-gold-300 font-bold text-lg">100%</div>
+                                <div class="text-[10px] text-gray-400 uppercase">Certificado</div>
+                            </div>
+                            <div>
+                                <div class="text-gold-300 font-bold text-lg">+30</div>
+                                <div class="text-[10px] text-gray-400 uppercase">Productos</div>
+                            </div>
+                            <div>
+                                <div class="text-gold-300 font-bold text-lg">GT</div>
+                                <div class="text-[10px] text-gray-400 uppercase">Guatemala</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SEARCH & FILTER SECTION -->
+    <section id="catalogo" class="py-12 bg-slate-100 border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto mb-8">
+                <h2 class="font-cinzel text-2xl sm:text-4xl font-bold text-navy-800 tracking-tight">Catálogo de Productos e Insumos</h2>
+                <div class="w-24 h-1 gold-bg-gradient mx-auto my-3 rounded-full"></div>
+                <p class="text-gray-600 text-sm sm:text-base">Busca equipos, reactivos, materiales bibliográficos y capacitaciones forenses para procesamiento técnico de la escena.</p>
+            </div>
+
+            <div class="max-w-xl mx-auto mb-8">
+                <div class="relative">
+                    <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gold-600"></i>
+                    <input type="text" id="searchInput" placeholder="Buscar por producto, libro o curso..." class="w-full pl-12 pr-4 py-3.5 rounded-2xl border-2 border-navy-800/20 focus:border-gold-500 focus:outline-none bg-white text-navy-900 shadow-sm transition-all text-sm sm:text-base">
+                </div>
+            </div>
+
+            <div class="flex flex-wrap gap-2 justify-center" id="categoryContainer"></div>
+        </div>
+    </section>
+
+    <!-- PRODUCT GRID SECTION -->
+    <section class="py-12 bg-slate-50 min-h-[600px]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center mb-6 text-xs sm:text-sm text-gray-500 font-medium">
+                <span id="resultsCount">Mostrando todos los productos</span>
+                <span class="text-navy-800 font-semibold">Precios en Quetzales (GTQ)</span>
+            </div>
+
+            <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
+
+            <div id="noResults" class="hidden text-center py-16 bg-white rounded-2xl border border-gray-200 shadow-sm my-6">
+                <i class="fa-solid fa-box-open text-5xl text-gray-300 mb-3"></i>
+                <h3 class="text-lg font-bold text-navy-800">No se encontraron productos</h3>
+                <p class="text-gray-500 text-sm mt-1">Intenta con otra palabra clave o selecciona otra categoría.</p>
+                <button onclick="resetFilters()" class="mt-4 inline-flex items-center gap-2 text-xs font-bold text-gold-600 hover:text-gold-700 bg-gold-100 px-4 py-2 rounded-lg transition-colors">
+                    <i class="fa-solid fa-arrows-rotate"></i> Restablecer filtros
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- SPECIAL SECTION: CURSOS DE ENTRENAMIENTO -->
+    <section id="entrenamientos" class="py-16 bg-navy-900 text-white border-t border-b border-gold-500/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <span class="text-gold-500 uppercase tracking-widest text-xs font-bold">Capacitación Especializada</span>
+                <h2 class="font-cinzel text-3xl sm:text-4xl font-bold mt-2">Cursos de Entrenamiento Profesional</h2>
+                <div class="w-20 h-1 gold-bg-gradient mx-auto my-4 rounded-full"></div>
+                <p class="text-gray-300 text-sm sm:text-base">Cursos teóricos y prácticos diseñados para elevar los estándares científicos en la investigación criminal.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Course 1 -->
+                <div class="bg-navy-800 border border-gold-500/30 rounded-2xl p-6 flex flex-col justify-between hover:border-gold-500 transition-all duration-300 shadow-xl group overflow-hidden">
+                    <div>
+                        <div class="h-44 -mx-6 -mt-6 mb-4 overflow-hidden bg-navy-900 border-b border-gold-500/30 flex items-center justify-center">
+                            <i class="fa-solid fa-graduation-cap text-5xl text-gold-500"></i>
+                        </div>
+                        <h3 class="font-cinzel text-xl font-bold text-white mb-3">Comparación de Huellas Latentes</h3>
+                        <p class="text-gray-300 text-sm leading-relaxed mb-4">
+                            Este curso provee ejercicios prácticos de huellas latentes diseñados para brindar una experiencia de capacitación similar al trabajo que se realiza en casos reales. Combina clases teóricas y orientación analítica.
+                        </p>
+                    </div>
+                    <div class="pt-4 border-t border-navy-700 flex items-center justify-between">
+                        <span class="text-gold-300 font-bold text-lg">Q450.00</span>
+                        <button onclick="addToCart(101)" class="bg-gold-500 hover:bg-gold-600 text-navy-900 font-bold px-4 py-2 rounded-lg text-xs transition-colors flex items-center gap-1.5">
+                            <i class="fa-solid fa-cart-plus"></i> Inscribirse
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Course 2 -->
+                <div class="bg-navy-800 border border-gold-500/30 rounded-2xl p-6 flex flex-col justify-between hover:border-gold-500 transition-all duration-300 shadow-xl group overflow-hidden">
+                    <div>
+                        <div class="h-44 -mx-6 -mt-6 mb-4 overflow-hidden bg-navy-900 border-b border-gold-500/30 flex items-center justify-center">
+                            <i class="fa-solid fa-boxes-packing text-5xl text-gold-500"></i>
+                        </div>
+                        <h3 class="font-cinzel text-xl font-bold text-white mb-3">Manejo de Evidencia</h3>
+                        <p class="text-gray-300 text-sm leading-relaxed mb-4">
+                            Altamente recomendado para agencias de seguridad pública y aplicación de la ley. Se enfoca en recepción, manejo, clasificación y almacenamiento seguro de bienes y evidencias con debates guiados.
+                        </p>
+                    </div>
+                    <div class="pt-4 border-t border-navy-700 flex items-center justify-between">
+                        <span class="text-gold-300 font-bold text-lg">Q500.00</span>
+                        <button onclick="addToCart(102)" class="bg-gold-500 hover:bg-gold-600 text-navy-900 font-bold px-4 py-2 rounded-lg text-xs transition-colors flex items-center gap-1.5">
+                            <i class="fa-solid fa-cart-plus"></i> Inscribirse
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Course 3 -->
+                <div class="bg-navy-800 border border-gold-500/30 rounded-2xl p-6 flex flex-col justify-between hover:border-gold-500 transition-all duration-300 shadow-xl group overflow-hidden">
+                    <div>
+                        <div class="h-44 -mx-6 -mt-6 mb-4 overflow-hidden bg-navy-900 border-b border-gold-500/30 flex items-center justify-center">
+                            <i class="fa-solid fa-masks-theater text-5xl text-gold-500"></i>
+                        </div>
+                        <h3 class="font-cinzel text-xl font-bold text-white mb-3">Reconstrucción de Escena</h3>
+                        <p class="text-gray-300 text-sm leading-relaxed mb-4">
+                            Curso intensivo sobre reconstrucción de la escena del crimen. Proporciona a investigadores un enfoque científico y basado en estándares para el análisis de escenas complejas y documentación sistemática.
+                        </p>
+                    </div>
+                    <div class="pt-4 border-t border-navy-700 flex items-center justify-between">
+                        <span class="text-gold-300 font-bold text-lg">Q600.00</span>
+                        <button onclick="addToCart(103)" class="bg-gold-500 hover:bg-gold-600 text-navy-900 font-bold px-4 py-2 rounded-lg text-xs transition-colors flex items-center gap-1.5">
+                            <i class="fa-solid fa-cart-plus"></i> Inscribirse
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT US SECTION -->
+    <section id="nosotros" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <span class="text-gold-600 font-bold uppercase tracking-widest text-xs">Sobre Veritas Forense</span>
+                    <h2 class="font-cinzel text-3xl sm:text-4xl font-bold text-navy-900 leading-tight">
+                        Excelencia Científica al Servicio de la Investigación Criminal
+                    </h2>
+                    <p class="text-gray-600 text-sm sm:text-base leading-relaxed">
+                        En <strong>Veritas Forense</strong> nos dedicamos a equipar y capacitar a peritos, investigadores, abogados y entidades de seguridad en Guatemala con insumos de alta especificación técnica, bibliografía jurídica actualizada y formación rigurosa.
+                    </p>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                            <div class="text-emerald-600 font-bold mb-1 flex items-center gap-2">
+                                <i class="fa-solid fa-circle-check"></i> Calidad Garantizada
+                            </div>
+                            <p class="text-xs text-gray-500">Insumos homologados para recolección de cadena de custodia sin contaminación.</p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                            <div class="text-emerald-600 font-bold mb-1 flex items-center gap-2">
+                                <i class="fa-solid fa-book-bookmark"></i> Material Técnico
+                            </div>
+                            <p class="text-xs text-gray-500">Compendios especializados y código legal guatemalteco de referencia.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-navy-800 rounded-3xl p-8 text-white relative overflow-hidden shadow-2xl border-2 border-gold-500/40">
+                    <div class="absolute -right-12 -bottom-12 w-64 h-64 bg-gold-500/10 rounded-full blur-2xl"></div>
+                    <h3 class="font-cinzel text-2xl font-bold text-gold-300 mb-6">Nuestros Compromisos</h3>
+                    
+                    <ul class="space-y-4 text-sm sm:text-base">
+                        <li class="flex items-start gap-3">
+                            <div class="w-6 h-6 rounded-full bg-gold-500/20 text-gold-300 flex items-center justify-center shrink-0 mt-0.5">✓</div>
+                            <span>Distribución directa de insumos forenses estándar de laboratorio.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <div class="w-6 h-6 rounded-full bg-gold-500/20 text-gold-300 flex items-center justify-center shrink-0 mt-0.5">✓</div>
+                            <span>Cursos teóricos e interactivos para manejo y embalaje de evidencia.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <div class="w-6 h-6 rounded-full bg-gold-500/20 text-gold-300 flex items-center justify-center shrink-0 mt-0.5">✓</div>
+                            <span>Atención personalizada para cotizaciones institucionales en Guatemala.</span>
+                        </li>
+                    </ul>
+
+                    <div class="mt-8 pt-6 border-t border-navy-700 flex justify-between items-center text-xs text-gray-400">
+                        <span>Guatemala City, Guatemala</span>
+                        <span class="text-gold-400 font-semibold">Veritas Forense © 2026</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contacto" class="py-16 bg-slate-100 border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <h2 class="font-cinzel text-3xl font-bold text-navy-900">Contacto e Información</h2>
+                <div class="w-20 h-1 gold-bg-gradient mx-auto my-3 rounded-full"></div>
+                <p class="text-gray-600 text-sm">¿Tienes preguntas sobre un insumo o curso? Comunícate directamente con nuestro equipo.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-1 space-y-4">
+                    <div class="bg-navy-800 text-white p-6 rounded-2xl border border-gold-500/30 shadow-lg flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-navy-900 border border-gold-500/40 flex items-center justify-center text-gold-400 text-xl shrink-0">
+                            <i class="fa-solid fa-phone"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gold-300 text-sm uppercase">Teléfono de Atención</h4>
+                            <p class="text-base text-gray-200 font-semibold mt-1">(+502) 1234-5678</p>
+                            <span class="text-xs text-gray-400">Atención de Lunes a Viernes</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-navy-800 text-white p-6 rounded-2xl border border-gold-500/30 shadow-lg flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-navy-900 border border-gold-500/40 flex items-center justify-center text-gold-400 text-xl shrink-0">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gold-300 text-sm uppercase">Dirección Principal</h4>
+                            <p class="text-sm text-gray-200 mt-1 leading-snug">15 Avenida 4-32, zona 10</p>
+                            <p class="text-xs text-gray-400">Ciudad de Guatemala, Guatemala</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-navy-800 text-white p-6 rounded-2xl border border-gold-500/30 shadow-lg flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-navy-900 border border-gold-500/40 flex items-center justify-center text-gold-400 text-xl shrink-0">
+                            <i class="fa-solid fa-globe"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gold-300 text-sm uppercase">Redes & Web</h4>
+                            <p class="text-sm text-gray-200 mt-1">www.veritasforense.com</p>
+                            <p class="text-xs text-gold-400 mt-0.5"><i class="fa-brands fa-instagram"></i> @VeritasForense</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-2 bg-white rounded-2xl p-6 sm:p-8 border border-gray-200 shadow-md">
+                    <h3 class="font-cinzel text-xl font-bold text-navy-900 mb-4">Envíanos un mensaje</h3>
+                    <form id="contactForm" onsubmit="handleContactSubmit(event)" class="space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-navy-800 uppercase mb-1">Nombre Completo</label>
+                                <input type="text" required placeholder="Ej. Lic. Carlos Gómez" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-gold-500 focus:outline-none text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-navy-800 uppercase mb-1">Correo Electrónico</label>
+                                <input type="email" required placeholder="ejemplo@correo.com" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-gold-500 focus:outline-none text-sm">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-navy-800 uppercase mb-1">Asunto</label>
+                            <input type="text" required placeholder="Consulta sobre insumos o cotización" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-gold-500 focus:outline-none text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-navy-800 uppercase mb-1">Mensaje</label>
+                            <textarea rows="4" required placeholder="Escribe aquí los detalles de tu consulta..." class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-gold-500 focus:outline-none text-sm"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-navy-800 hover:bg-navy-900 text-gold-300 font-bold py-3 rounded-xl transition-colors border border-gold-500/40 flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-paper-plane"></i> Enviar Mensaje
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-navy-900 text-white border-t-2 border-gold-500 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6 border-b border-navy-700 pb-8">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full border border-gold-500 flex items-center justify-center bg-navy-800 text-gold-500">
+                        <i class="fa-solid fa-scale-balanced"></i>
+                    </div>
+                    <div>
+                        <span class="font-cinzel font-bold text-lg text-white">VERITAS FORENSE</span>
+                        <p class="text-xs text-gray-400">Investigación Criminal • Guatemala</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-6 text-sm text-gray-300">
+                    <a href="#inicio" class="hover:text-gold-300 transition-colors">Inicio</a>
+                    <a href="#catalogo" class="hover:text-gold-300 transition-colors">Catálogo</a>
+                    <a href="#entrenamientos" class="hover:text-gold-300 transition-colors">Cursos</a>
+                    <a href="#contacto" class="hover:text-gold-300 transition-colors">Contacto</a>
+                </div>
+
+                <div class="flex gap-4 text-gold-400 text-lg">
+                    <a href="https://instagram.com/VeritasForense" target="_blank" class="hover:text-gold-200 transition-colors" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="hover:text-gold-200 transition-colors" title="Facebook"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="#" class="hover:text-gold-200 transition-colors" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+            </div>
+
+            <div class="pt-8 text-center text-xs text-gray-500 flex flex-col sm:flex-row justify-between items-center gap-2">
+                <p>© 2026 Veritas Forense - Todos los derechos reservados. 15 Avenida 4-32, zona 10, Ciudad de Guatemala.</p>
+                <p>Plataforma E-Commerce Forense</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SLIDE-OVER CART DRAWER -->
+    <div id="cartDrawerBackdrop" class="fixed inset-0 bg-navy-900/70 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity duration-300"></div>
+    
+    <aside id="cartDrawer" class="fixed top-0 right-0 h-full w-full max-w-md bg-white z-50 shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col">
+        <div class="bg-navy-800 text-white p-5 border-b border-gold-500/40 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-cart-shopping text-gold-400"></i>
+                <h3 class="font-cinzel text-lg font-bold">Carrito de Compras</h3>
+            </div>
+            <button id="closeCartBtn" class="text-gray-400 hover:text-white p-1 focus:outline-none">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+        </div>
+
+        <div id="cartItemsContainer" class="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar"></div>
+
+        <div class="p-5 border-t border-gray-200 bg-slate-50 space-y-4">
+            <div class="flex justify-between items-center text-navy-900">
+                <span class="text-sm font-semibold uppercase text-gray-600">Subtotal</span>
+                <span id="cartSubtotal" class="font-bold text-xl text-navy-900">Q0.00</span>
+            </div>
+
+            <button id="checkoutBtn" onclick="openCheckoutModal()" class="w-full gold-bg-gradient hover:opacity-95 text-navy-900 font-extrabold py-3.5 rounded-xl shadow-lg transition-all text-center flex items-center justify-center gap-2">
+                <i class="fa-solid fa-credit-card"></i> Finalizar Pedido
+            </button>
+
+            <button onclick="clearCart()" class="w-full text-center text-xs text-red-600 hover:text-red-700 font-semibold py-1">
+                Vaciar carrito
+            </button>
+        </div>
+    </aside>
+
+    <!-- CHECKOUT MODAL -->
+    <div id="checkoutModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy-900/80 backdrop-blur-sm hidden">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-gold-500/30 max-h-[90vh] overflow-y-auto custom-scrollbar">
+            <div class="flex justify-between items-center pb-4 border-b border-gray-200">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-full bg-gold-100 text-gold-600 flex items-center justify-center">
+                        <i class="fa-solid fa-receipt"></i>
+                    </div>
+                    <h3 class="font-cinzel text-lg font-bold text-navy-900">Confirmación de Compra</h3>
+                </div>
+                <button onclick="closeCheckoutModal()" class="text-gray-400 hover:text-navy-900">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <form id="checkoutForm" onsubmit="processOrder(event)" class="space-y-4 mt-4">
+                <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 text-xs text-gray-600">
+                    <span class="font-bold text-navy-800">Resumen del Pedido:</span>
+                    <div id="modalOrderSummary" class="mt-1 font-mono"></div>
+                    <div class="text-right font-bold text-navy-900 text-sm mt-2 border-t pt-1" id="modalOrderTotal"></div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-navy-800 uppercase mb-1">Nombre Completo *</label>
+                    <input type="text" required placeholder="Ej. Lic. Ana Martinez" class="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm focus:border-gold-500 focus:outline-none">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-navy-800 uppercase mb-1">Teléfono (Guatemala) *</label>
+                        <input type="tel" required placeholder="Ej. 5555-1234" class="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm focus:border-gold-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-navy-800 uppercase mb-1">NIT / CF</label>
+                        <input type="text" placeholder="CF o NIT" class="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm focus:border-gold-500 focus:outline-none">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-navy-800 uppercase mb-1">Dirección de Envío *</label>
+                    <input type="text" required placeholder="Dirección en Ciudad de Guatemala o Departamentos" class="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm focus:border-gold-500 focus:outline-none">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-navy-800 uppercase mb-1">Método de Pago Simulada</label>
+                    <select class="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm focus:border-gold-500 focus:outline-none">
+                        <option>Pago contra entrega / Transferencia Bancaria</option>
+                        <option>Tarjeta de Crédito / Débito (Simulado)</option>
+                        <option>Orden de Compra Institucional</option>
+                    </select>
+                </div>
+
+                <div class="pt-2">
+                    <button type="submit" class="w-full gold-bg-gradient hover:opacity-95 text-navy-900 font-extrabold py-3 rounded-xl shadow-md transition-all text-sm flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-check-circle"></i> Confirmar y Generar Orden
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ORDER SUCCESS RECEIPT MODAL -->
+    <div id="receiptModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy-900/80 backdrop-blur-sm hidden">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border-2 border-emerald-500 text-center space-y-4">
+            <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 mx-auto flex items-center justify-center text-3xl">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            
+            <h3 class="font-cinzel text-xl font-bold text-navy-900">¡Pedido Recibido Exitosamente!</h3>
+            <p class="text-xs text-gray-600">
+                Gracias por confiar en <strong>Veritas Forense</strong>. Un asesor procesará su orden y se comunicará al número brindado.
+            </p>
+
+            <div class="bg-slate-50 p-4 rounded-xl text-left text-xs font-mono border border-slate-200 space-y-1" id="receiptContent"></div>
+
+            <button onclick="closeReceiptModal()" class="w-full bg-navy-800 text-gold-300 font-bold py-2.5 rounded-xl hover:bg-navy-900 transition-colors text-sm">
+                Aceptar y Volver a la Tienda
+            </button>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        /* ----------------------------------------------------
+           PRODUCTS DATABASE
+           ---------------------------------------------------- */
+        const products = [
+            // Material Bibliográfico
+            { id: 1, name: "Constitución Política de la República de Guatemala", category: "Material Bibliográfico", price: 35.00, image: "imagenes/constitucion.png", icon: "fa-book-atlas", desc: "Texto fundamental de la legislación guatemalteca para consulta jurídica y forense." },
+            { id: 2, name: "Código Procesal Penal", category: "Material Bibliográfico", price: 35.00, image: "imagenes/codigo procesal penal.png", icon: "fa-scale-unbalanced-flip", desc: "Normativa reguladora del proceso penal y actuación de peritos forenses." },
+            { id: 3, name: "Código Penal", category: "Material Bibliográfico", price: 25.00, image: "imagenes/codigo penal.png", icon: "fa-gavel", desc: "Compendio de delitos, penas y medidas de seguridad vigentes en Guatemala." },
+            { id: 4, name: "Compendio de Criminalística: Las ciencias forenses en el ámbito penal", category: "Material Bibliográfico", price: 185.00, image: "imagenes/compendio de criminalistica.png", icon: "fa-book-journal-whills", desc: "Guía completa de las ciencias forenses aplicadas a la administración de justicia." },
+            { id: 5, name: "Compendio de Criminalística / Dactiloscopia", category: "Material Bibliográfico", price: 185.00, image: "imagenes/compendio de dactiloscopia.png", icon: "fa-fingerprint", desc: "Tomo especializado en cotejo, clasificación y análisis de lofoscopia." },
+            { id: 6, name: "Medicina Legal y Toxicología – J. A. Gisbert Calabuig", category: "Material Bibliográfico", price: 650.00, image: "imagenes/medicina legal.png", icon: "fa-file-medical", desc: "Obra magna de medicina forense, traumatología y toxicología judicial." },
+
+            // Entrenamientos (Cursos)
+            { id: 101, name: "Curso: Comparación de Huellas Latentes", category: "Entrenamiento", price: 450.00, image: "imagenes/curso huellas.png", icon: "fa-graduation-cap", desc: "Capacitación práctica con ejercicios reales de cotejo y análisis de huellas dactilares." },
+            { id: 102, name: "Curso: Manejo de Evidencia", category: "Entrenamiento", price: 500.00, image: "imagenes/curso evidencia.png", icon: "fa-boxes-packing", desc: "Taller sobre recepción, embalaje, clasificación y cadena de custodia." },
+            { id: 103, name: "Curso: Reconstrucción de Escena del Crimen", category: "Entrenamiento", price: 600.00, image: "imagenes/curso escena.png", icon: "fa-masks-theater", desc: "Enfoque científico para la documentación y reconstrucción de escenas complejas." },
+
+            // Documentación de Escena
+            { id: 7, name: "Bote Estéril de plástico para muestras", category: "Documentación de Escena", price: 12.00, image: "imagenes/bote esteril.png", icon: "fa-vial", desc: "Frasco hermético y estéril para recolección de indicios biológicos u orgánicos." },
+            { id: 8, name: "Pinzas plásticas anti-contaminación", category: "Documentación de Escena", price: 20.00, image: "imagenes/pinzas plasticas.png", icon: "fa-fill-drip", desc: "Herramienta plástica para recolección de pequeñas muestras sin alteración." },
+            { id: 9, name: "Cutter profesional de precisión", category: "Documentación de Escena", price: 25.00, image: "imagenes/cutter.png", icon: "fa-scissors", desc: "Corta-cartón reforzado para toma y apertura de embalajes de evidencia." },
+            { id: 10, name: "Brocha con empuñadura plástica", category: "Documentación de Escena", price: 40.00, image: "imagenes/brocha.png", icon: "fa-paint-brush", desc: "Ideal para limpieza o espolvoreado en la preparación de escena." },
+            { id: 11, name: "Papel Kraft para embalaje de evidencia", category: "Documentación de Escena", price: 35.00, image: "imagenes/papel kraft.png", icon: "fa-scroll", desc: "Rollo de papel Kraft para preservación de prendas y objetos húmedos." },
+            { id: 12, name: "Sobres de evidencia timbrados", category: "Documentación de Escena", price: 50.00, image: "imagenes/sobres evidencia.png", icon: "fa-envelope-open-text", desc: "Sobres de papel Manila con formato preimpreso para registro de cadena de custodia." },
+            { id: 13, name: "Cámara Sony Alpha a7 IV con 28–70mm OSS", category: "Documentación de Escena", price: 18999.00, image: "imagenes/camara sony.png", icon: "fa-camera", desc: "Equipo fotográfico profesional Full Frame para fijación fotográfica forense." },
+            { id: 14, name: "Cámara Nikon D7500 con 18–140mm VR", category: "Documentación de Escena", price: 13649.00, image: "imagenes/camara nikon.png", icon: "fa-camera-retro", desc: "Cámara réflex de alta velocidad óptima para fotógrafos de escena de crimen." },
+            { id: 15, name: "Kit de criminalística completo con maletín", category: "Documentación de Escena", price: 500.00, image: "imagenes/kit criminalistica.png", icon: "fa-briefcase", desc: "Maletín rígido equipado con insumos esenciales para procesamiento inicial." },
+            { id: 16, name: "Indicadores numéricos y alfabéticos (A-Z, 1-20)", category: "Documentación de Escena", price: 380.00, image: "imagenes/indicadores con letras y números.png", icon: "fa-arrow-down-1-9", desc: "Marcadores amarillos de señalización para identificación visual de evidencias." },
+            { id: 17, name: "Testigo Métrico L-Shape (Escala fotográfica)", category: "Documentación de Escena", price: 75.00, image: "imagenes/testigo metrico.png", icon: "fa-ruler-combined", desc: "Regla graduada en milímetros para referencia de dimensión en fotografías." },
+            { id: 18, name: "Cinta Métrica de 7.5 metros", category: "Documentación de Escena", price: 60.00, image: "imagenes/cinta metrica.png", icon: "fa-ruler-horizontal", desc: "Flexómetro resistente para planimetría y medición de distancias en la escena." },
+            { id: 19, name: "Cinta de precaución/evidencia 'EVIDENCE'", category: "Documentación de Escena", price: 125.00, image: "imagenes/cinta evidencia.png", icon: "fa-tape", desc: "Rollo de cinta de acordonamiento y sellado de seguridad para zonas de hallazgo." },
+
+            // Lupas
+            { id: 20, name: "Lupa profesional para huellas 4.5x", category: "Lupas y Óptica", price: 320.00, image: "imagenes/lupa huellas.png", icon: "fa-magnifying-glass-plus", desc: "Lupa de alta resolución con campo graduado para análisis dactiloscópico." },
+            { id: 21, name: "M2 Lupa profesional de laboratorio", category: "Lupas y Óptica", price: 120.00, image: "imagenes/lupa m2.png", icon: "fa-magnifying-glass", desc: "Lupa con soporte rígido para inspección rápida en mesa de trabajo." },
+            { id: 22, name: "Lupa de plástico estándar", category: "Lupas y Óptica", price: 25.00, image: "imagenes/lupa plastico.png", icon: "fa-search", desc: "Lupa manual económica para campo y revisión general." },
+
+            // Fuentes de Luz Alternas
+            { id: 23, name: "Luces forenses ultravioleta + Lentes de protección", category: "Fuentes de Luz Alternas", price: 850.00, image: "imagenes/luces uv.png", icon: "fa-lightbulb", desc: "Kit UV para detección de fluidos corporales, fibras y tintas fluorescentes." },
+            { id: 24, name: "Linterna de titanio táctica con baterías", category: "Fuentes de Luz Alternas", price: 450.00, image: "imagenes/linterna titanio.png", icon: "fa-flashlight", desc: "Linterna de alta intensidad y cuerpo de titanio resistente a caídas." },
+
+            // Dactiloscopia
+            { id: 25, name: "Aplicador de polvo magnético estándar", category: "Dactiloscopia", price: 250.00, image: "imagenes/aplicador magnetico.png", icon: "fa-wand-magic-sparkles", desc: "Pincel magnético para revelado limpio de huellas latentes en superficies no porosas." },
+            { id: 26, name: "Almohadilla dactilar de tinta negra", category: "Dactiloscopia", price: 85.00, image: "imagenes/almohadilla dactilar.png", icon: "fa-stamp", desc: "Almohadilla para toma de decadactilares de reseña en ficha policial/forense." },
+            { id: 27, name: "Brocha de fibra de vidrio para dactiloscopia", category: "Dactiloscopia", price: 175.00, image: "imagenes/brocha fibra vidrio.png", icon: "fa-broom", desc: "Brocha ultra suave para aplicación de polvos reactivos convencionales." },
+
+            // Recolección de ADN
+            { id: 28, name: "Hisopo de algodón estéril (3 pulgadas)", category: "Recolección de ADN", price: 45.00, image: "imagenes/hisopo esteril.png", icon: "fa-notes-medical", desc: "Hisopos estériles libres de ADN humano para toma de muestras biológicas." },
+            { id: 29, name: "Agua destilada (Botella de 1 oz)", category: "Recolección de ADN", price: 15.00, image: "imagenes/agua destilada.png", icon: "fa-bottle-water", desc: "Agua reactivo ultrapura para humectación de hisopos en frotis de evidencia." },
+
+            // Protección Personal
+            { id: 30, name: "Máscara desechable con filtro KN95", category: "Protección Personal", price: 10.00, image: "imagenes/mascara kn95.png", icon: "fa-head-side-mask", desc: "Mascarilla de protección respiratoria en ambientes con material particulado." },
+            { id: 31, name: "Mascarilla antipolvo N95", category: "Protección Personal", price: 10.00, image: "imagenes/mascarilla n95.png", icon: "fa-mask-face", desc: "Protección respiratoria estándar para procesamiento de campo." },
+            { id: 32, name: "Guantes de nitrilo sin polvo (Caja)", category: "Protección Personal", price: 65.00, image: "imagenes/guantes nitrilo.png", icon: "fa-hand-sparkles", desc: "Guantes de nitrilo azul o negro para evitar contaminación cruzada." },
+            { id: 33, name: "Traje de cirujano / Tyvek desechable", category: "Protección Personal", price: 85.00, image: "imagenes/traje tyvek.png", icon: "fa-user-nurse", desc: "Overol de protección corporal completo para bioseguridad en la escena." }
+        ];
+
+        /* ----------------------------------------------------
+           APPLICATION STATE
+           ---------------------------------------------------- */
+        let cart = [];
+        let selectedCategory = "Todos";
+        let searchQuery = "";
+
+        const categories = [
+            "Todos",
+            "Material Bibliográfico",
+            "Entrenamiento",
+            "Documentación de Escena",
+            "Lupas y Óptica",
+            "Fuentes de Luz Alternas",
+            "Dactiloscopia",
+            "Recolección de ADN",
+            "Protección Personal"
+        ];
+
+        /* ----------------------------------------------------
+           INITIALIZATION
+           ---------------------------------------------------- */
+        window.addEventListener('DOMContentLoaded', () => {
+            renderCategoryFilters();
+            renderProducts();
+            setupEventListeners();
+        });
+
+        function renderCategoryFilters() {
+            const container = document.getElementById('categoryContainer');
+            container.innerHTML = categories.map(cat => {
+                const isActive = cat === selectedCategory;
+                return `
+                    <button onclick="setCategory('${cat}')" 
+                        class="px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 ${
+                            isActive 
+                            ? 'navy-gradient bg-navy-800 text-gold-300 border border-gold-500 shadow-md scale-105' 
+                            : 'bg-white text-gray-700 hover:bg-gray-200 border border-gray-300'
+                        }">
+                        ${cat}
+                    </button>
+                `;
+            }).join('');
+        }
+
+        function setCategory(cat) {
+            selectedCategory = cat;
+            renderCategoryFilters();
+            renderProducts();
+        }
+
+        function resetFilters() {
+            selectedCategory = "Todos";
+            searchQuery = "";
+            document.getElementById('searchInput').value = "";
+            renderCategoryFilters();
+            renderProducts();
+        }
+
+        function renderProducts() {
+            const grid = document.getElementById('productGrid');
+            const noResults = document.getElementById('noResults');
+            const resultsCount = document.getElementById('resultsCount');
+
+            const filtered = products.filter(p => {
+                const matchesCategory = selectedCategory === "Todos" || p.category === selectedCategory;
+                const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                                      p.desc.toLowerCase().includes(searchQuery.toLowerCase());
+                return matchesCategory && matchesSearch;
+            });
+
+            resultsCount.textContent = `Mostrando ${filtered.length} producto(s)`;
+
+            if (filtered.length === 0) {
+                grid.innerHTML = "";
+                noResults.classList.remove('hidden');
+                return;
+            }
+
+            noResults.classList.add('hidden');
+
+            grid.innerHTML = filtered.map(p => {
+                // Maneja la carga de la imagen local con un respaldo seguro si no existe el archivo aún
+                const visualContent = p.image 
+                    ? `<img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.onerror=null; this.parentElement.innerHTML='<i class=\\'fa-solid ${p.icon} text-5xl text-gold-500\\'></i>';">`
+                    : `<i class="fa-solid ${p.icon} text-5xl text-gold-500 relative z-10 group-hover:scale-110 transition-transform duration-300"></i>`;
+
+                return `
+                    <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-xl hover:border-gold-500/50 transition-all duration-300 flex flex-col justify-between group">
+                        <div>
+                            <!-- Visual Box -->
+                            <div class="bg-navy-800 h-48 flex items-center justify-center relative overflow-hidden">
+                                ${visualContent}
+                                <span class="absolute top-3 left-3 z-10 bg-navy-900/80 border border-gold-500/30 text-gold-300 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md backdrop-blur-sm">
+                                    ${p.category}
+                                </span>
+                            </div>
+
+                            <!-- Detail Content -->
+                            <div class="p-5">
+                                <h3 class="font-bold text-navy-900 text-base line-clamp-2 leading-snug group-hover:text-gold-600 transition-colors">
+                                    ${p.name}
+                                </h3>
+                                <p class="text-xs text-gray-500 mt-2 line-clamp-2 leading-relaxed">
+                                    ${p.desc}
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Price & Action -->
+                        <div class="p-5 pt-0 border-t border-gray-100 flex items-center justify-between mt-2">
+                            <div>
+                                <span class="text-[10px] text-gray-400 block uppercase font-bold">Precio</span>
+                                <span class="text-base font-extrabold text-navy-900">Q${p.price.toFixed(2)}</span>
+                            </div>
+                            <button onclick="addToCart(${p.id})" class="bg-navy-800 hover:bg-gold-500 hover:text-navy-900 text-gold-300 p-3 rounded-xl border border-gold-500/40 transition-all duration-300 flex items-center gap-2 text-xs font-bold shadow-sm">
+                                <i class="fa-solid fa-cart-plus text-sm"></i>
+                                <span>Agregar</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const existing = cart.find(item => item.id === productId);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+
+            updateCartUI();
+            openCartDrawer();
+        }
+
+        function updateQuantity(productId, change) {
+            const item = cart.find(i => i.id === productId);
+            if (!item) return;
+
+            item.quantity += change;
+            if (item.quantity <= 0) {
+                cart = cart.filter(i => i.id !== productId);
+            }
+            updateCartUI();
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(i => i.id !== productId);
+            updateCartUI();
+        }
+
+        function clearCart() {
+            cart = [];
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const badge = document.getElementById('cartBadge');
+            const container = document.getElementById('cartItemsContainer');
+            const subtotalEl = document.getElementById('cartSubtotal');
+
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+            badge.textContent = totalItems;
+            subtotalEl.textContent = `Q${subtotal.toFixed(2)}`;
+
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 text-gray-400">
+                        <i class="fa-solid fa-basket-shopping text-4xl mb-2 text-gray-300"></i>
+                        <p class="text-sm">Tu carrito está vacío.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = cart.map(item => `
+                <div class="flex items-center justify-between bg-slate-50 p-3 rounded-xl border border-slate-200">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 rounded-lg bg-navy-800 text-gold-400 flex items-center justify-center shrink-0 overflow-hidden">
+                            ${item.image 
+                                ? `<img src="${item.image}" class="w-full h-full object-cover" onerror="this.onerror=null; this.parentElement.innerHTML='<i class=\\'fa-solid ${item.icon}\\'></i>';">` 
+                                : `<i class="fa-solid ${item.icon} text-lg"></i>`
+                            }
+                        </div>
+                        <div class="max-w-[160px]">
+                            <h4 class="text-xs font-bold text-navy-900 line-clamp-1">${item.name}</h4>
+                            <span class="text-xs text-gray-500">Q${item.price.toFixed(2)} c/u</span>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-2">
+                        <div class="flex items-center border border-gray-300 rounded-lg bg-white">
+                            <button onclick="updateQuantity(${item.id}, -1)" class="px-2 py-0.5 text-xs text-gray-600 hover:bg-gray-100 font-bold">-</button>
+                            <span class="px-2 text-xs font-bold text-navy-900">${item.quantity}</span>
+                            <button onclick="updateQuantity(${item.id}, 1)" class="px-2 py-0.5 text-xs text-gray-600 hover:bg-gray-100 font-bold">+</button>
+                        </div>
+                        <button onclick="removeFromCart(${item.id})" class="text-red-500 hover:text-red-700 text-xs p-1">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        const cartDrawer = document.getElementById('cartDrawer');
+        const cartDrawerBackdrop = document.getElementById('cartDrawerBackdrop');
+
+        function openCartDrawer() {
+            cartDrawerBackdrop.classList.remove('hidden');
+            setTimeout(() => {
+                cartDrawerBackdrop.classList.remove('opacity-0');
+                cartDrawer.classList.remove('translate-x-full');
+            }, 10);
+        }
+
+        function closeCartDrawer() {
+            cartDrawer.classList.add('translate-x-full');
+            cartDrawerBackdrop.classList.add('opacity-0');
+            setTimeout(() => {
+                cartDrawerBackdrop.classList.add('hidden');
+            }, 300);
+        }
+
+        function setupEventListeners() {
+            document.getElementById('cartBtn').addEventListener('click', openCartDrawer);
+            document.getElementById('closeCartBtn').addEventListener('click', closeCartDrawer);
+            cartDrawerBackdrop.addEventListener('click', closeCartDrawer);
+
+            document.getElementById('searchInput').addEventListener('input', (e) => {
+                searchQuery = e.target.value;
+                renderProducts();
+            });
+
+            document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+                const menu = document.getElementById('mobileMenu');
+                menu.classList.toggle('hidden');
+            });
+        }
+
+        function openCheckoutModal() {
+            if (cart.length === 0) {
+                alert("Agrega al menos un producto al carrito para continuar.");
+                return;
+            }
+            closeCartDrawer();
+            
+            const modalSummary = document.getElementById('modalOrderSummary');
+            const modalTotal = document.getElementById('modalOrderTotal');
+            
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+            modalSummary.innerHTML = cart.map(i => `
+                <div class="flex justify-between py-0.5">
+                    <span>${i.quantity}x ${i.name.substring(0,25)}...</span>
+                    <span>Q${(i.price * i.quantity).toFixed(2)}</span>
+                </div>
+            `).join('');
+
+            modalTotal.textContent = `Total a Pagar: Q${subtotal.toFixed(2)}`;
+
+            document.getElementById('checkoutModal').classList.remove('hidden');
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById('checkoutModal').classList.add('hidden');
+        }
+
+        function processOrder(e) {
+            e.preventDefault();
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const orderNum = 'VF-' + Math.floor(100000 + Math.random() * 900000);
+
+            const receiptContent = document.getElementById('receiptContent');
+            receiptContent.innerHTML = `
+                <div><strong>No. Orden:</strong> ${orderNum}</div>
+                <div><strong>Fecha:</strong> ${new Date().toLocaleDateString('es-GT')}</div>
+                <div><strong>Sede:</strong> Ciudad de Guatemala</div>
+                <hr class="my-2 border-gray-300"/>
+                <div><strong>Items Pedidos:</strong> ${cart.length} productos</div>
+                <div><strong>Monto Total:</strong> Q${subtotal.toFixed(2)} GTQ</div>
+                <hr class="my-2 border-gray-300"/>
+                <div class="text-[10px] text-gray-500">Un asesor se pondrá en contacto al número de teléfono indicado para coordinar entrega o acceso a capacitaciones.</div>
+            `;
+
+            closeCheckoutModal();
+            cart = [];
+            updateCartUI();
+            document.getElementById('receiptModal').classList.remove('hidden');
+        }
+
+        function closeReceiptModal() {
+            document.getElementById('receiptModal').classList.add('hidden');
+        }
+
+        function handleContactSubmit(e) {
+            e.preventDefault();
+            alert("¡Gracias por escribir a Veritas Forense! Tu mensaje ha sido enviado. Un representante se pondrá en contacto en breve.");
+            e.target.reset();
+        }
+    </script>
+</body>
+</html>
